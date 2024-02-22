@@ -74,7 +74,7 @@
     width: 20px;
     height: 20px;
     color: #fff;
-    background-color: #000;
+    background-color: #090909;
     border-radius: 50%;
     margin-left: 1rem;
     margin-right: 1rem;
@@ -91,14 +91,19 @@
 .count:last-of-type::after{
     border: none;
 }
+ .attempted {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    color: #fff;
+        border-radius: 50%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    position: relative;
+    background-color:red!important ; 
+  }
 
 
-.countAttempted {
-    background-color: green; 
-  }
-  
-  .countNotAttempted {
-    background-color: red; 
-  }
-  
   

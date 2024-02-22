@@ -23,7 +23,6 @@ const value = [];
 const userAnswers = [];
 const randomOrder = [];
 const temp = [];
-
 let didUserAnswer = false;
 
 let i = 0;
@@ -32,8 +31,11 @@ let timer = 5;
 // GENERATE A RANDOM ORDER ON PAGE LOAD
 for (let i = 0; i < questions.length; i++) {
   randomOrder.push(getARandomValue());
+  const count = document.createElement("div");
+  count.classList.add("count");
+  count.innerHTML = i+1;
+  counterDiv.append(count);
 }
-
 // PRINT FIRST QUESTION INSTANTLY (WITHOUT DELAY)
 printQ();
 timerDiv.innerHTML = timer;
@@ -41,10 +43,14 @@ timerDiv.innerHTML = timer;
 // START THE LOOP TO PRINT NEXT QUESTIONS
 const girraj = setInterval(() => {
   if (timer === 1) {
-    if (didUserAnswer === false) userAnswers.push("NA");
+    if (didUserAnswer === false) {
+      userAnswers.push("NA");
+      // Change count color to red
+      // girraj.style.color = "red";
+    }
+    display()
     printQ();
     timer = 5;
-
     timerDiv.innerHTML = timer;
   } else {
     timer--;
@@ -52,22 +58,42 @@ const girraj = setInterval(() => {
   }
 }, 1000);
 
-// WHEN USER CLICKS ON ANY OPTION,
-// APPLY CLASS ON THAT OPTION
-optionsPara.forEach((p, index) => {
-  p.addEventListener("click", () => {
-    p.classList.add("selectedOption");
-    userAnswers.push(p.innerHTML);
+optionsPara.forEach((p,index)=>{
+p.addEventListener("click",()=>{
+  p.classList.add("selectedOption")
 
-    // NOW THAT USER HAS MADE THEIR CHOICE
-    // TOGGLE THE VARIABLE AND,
-    // DISABLE ALL THE OPTIONS TO PREVENT DOUBLE CLICKING
-
-    didUserAnswer = true;
-    disableOptions();
-    console.log(userAnswers);
-  });
+  userAnswers.push(p.innerHTML)
+  didUserAnswer=true; 
+  disableOptions();
+  console.log(userAnswers)
+})
 });
+// // WHEN USER CLICKS ON ANY OPTION,
+// // APPLY CLASS ON THAT OPTION
+// optionsPara.forEach((p, index) => {
+//   p.addEventListener("click", () => {
+//     p.classList.add("selectedOption");
+//     userAnswers.push(p.innerHTML);
+//     didUserAnswer = true;
+//     disableOptions();
+//     console.log(userAnswers);
+
+//     // count.style.color = "green";
+//   });
+// });
+
+// WHEN USER CLICKS ON ANY OPTION,
+
+function display(){
+  Array.from(counterDiv.children).forEach((option,index)=>{
+    if(index<i){  
+      option.classList.add("attempted");
+      if(index===i-1)option.classList.add("current");
+      else
+      option.classList.remove("current")
+    }
+  })
+}
 
 function getARandomValue() {
   const randomValue = Math.floor(Math.random() * questions.length);
@@ -108,6 +134,7 @@ function printQ() {
 function disableOptions() {
   optionsPara.forEach((p) => {
     p.style.pointerEvents = "none";
+
   });
 }
 
@@ -145,23 +172,6 @@ function showScore(score) {
   document.querySelector("#quiz").append(scorePara);
 }
 
-for (let i = 0; i < questions.length; i++) {
-  const count = document.createElement("div");
-  count.classList.add("count");
-  count.innerHTML = i+1;
-  counterDiv.append(count);
-}
 
-optionsPara.forEach((p, index) => {
-  p.addEventListener("click", () => {
-    document.querySelector(".selectedOption").classList.remove("selectedOption");
-    p.classList.add("selectedOption");
-    userAnswers.push(p.innerHTML);
 
-    const countElement = document.querySelectorAll(".count")[index];
-    countElement.classList.add(options !== 'NA' ? 'countAttempted' : 'countNotAttempted');
-    didUserAnswer = true;
-    disableOptions();
-    // console.log(userAnswers);
-  });
-});
+
